@@ -1,5 +1,6 @@
 package com.example.zobair;
-
+//এখানে শুধু অ্যাড বাটন টি কাজ করবে যতবার অ্যাড বাটনে ক্লিক করব ততবার এড হতেই থাকবে কিন্তু আমরা সেটি দেখতে পাবো না কারণ সেটি নিচে চলে যায় 
+//কন্ডিশন ব্যবহার করে বারবার আশা থেকে বিরত রাখতে পারি এগুলো পরে করব
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
