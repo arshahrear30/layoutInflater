@@ -1,0 +1,76 @@
+package com.example.zobair;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+    LinearLayout mainlayout,mycreatedlayout;
+    //newlayout এর page এর একটা id 
+    Button buttonAdd,buttonRemove,blogTitle;
+    LayoutInflater layoutInflater;
+//---------------------------------------------------------------
+    //Add layout এ চাপলে new_layout যুক্ত হবে । এই নতুন
+    //পেজে button  এ চাপলে পুরাতন page এ কিছু পরিবর্তন করা যাবে । 
+//----------------------------------------------------------------
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+        mainlayout = findViewById(R.id.mainlayout);
+        mycreatedlayout=findViewById(R.id.mycreatedlayout);
+        buttonAdd = findViewById(R.id.buttonAdd);
+        buttonRemove = findViewById(R.id.buttonRemove);
+
+        layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View myview = layoutInflater.inflate(R.layout.new_layout, mycreatedlayout, false);
+                mycreatedlayout.addView(myview);
+
+                //resource: এটি হল সেই লেআউট রিসোর্স (R.layout.new_layout) যা আপনি ইনফ্লেট করতে চান।
+                //root: এটি হল সেই ভিউগ্রুপ (mycreatedlayout) যার মধ্যে ইনফ্লেট করা ভিউটি যোগ করা হবে।
+                //attachToRoot: এটি একটি বুলিয়ান প্যারামিটার যা নির্ধারণ করে যে ইনফ্লেট করা ভিউটি অবিলম্বে root ভিউগ্রুপে যোগ করা হবে কিনা।
+                //attachToRoot = true:
+                //ইনফ্লেট করা ভিউটি (myview) অবিলম্বে root ভিউগ্রুপে (mycreatedlayout) যোগ হয়ে যাবে।
+                //এই ক্ষেত্রে, inflate() মেথডটি root ভিউগ্রুপটি রিটার্ন করে, তাই আলাদাভাবে addView() কল করার দরকার নেই।
+                //**View myview = layoutInflater.inflate(R.layout.new_layout, mycreatedlayout, true);
+                // এখানে myview সরাসরি mycreatedlayout-এ যোগ হয়ে গেছে।
+                //attachToRoot = false:
+                //ইনফ্লেট করা ভিউটি (myview) root ভিউগ্রুপে (mycreatedlayout) যোগ হবে না,
+                // তবে root ভিউগ্রুপটি লেআউট প্যারামিটার (যেমন layout_width, layout_height) সেট করার জন্য ব্যবহার করা হবে।
+                //এই ক্ষেত্রে, আপনাকে ম্যানুয়ালি addView() কল করে ভিউটি root ভিউগ্রুপে যোগ করতে হবে।
+                //এটি কোডের ফ্লেক্সিবিলিটি বাড়ায় এবং ভিউ যোগ করার আগে অতিরিক্ত কাস্টমাইজেশন (যেমন ভিউ প্রোপার্টি সেট করা) করার সুযোগ দেয়।
+                //View myview = layoutInflater.inflate(R.layout.new_layout, mycreatedlayout, false);
+                //mycreatedlayout.addView(myview); // ম্যানুয়ালি ভিউ যোগ করা
+
+                blogTitle = myview.findViewById(R.id.blogTitle);
+
+                blogTitle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonAdd.setText("Hi");
+                    }
+                });
+            }
+        });
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainlayout), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+}
