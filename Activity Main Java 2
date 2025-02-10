@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
     //newlayout এর page এর একটা id 
     Button buttonAdd,buttonRemove,blogTitle;
     LayoutInflater layoutInflater;
-//---------------------------------------------------------------
+
     //Add layout এ চাপলে new_layout যুক্ত হবে । এই নতুন
-    //পেজে button  এ চাপলে পুরাতন page এ কিছু পরিবর্তন করা যাবে । 
-//----------------------------------------------------------------
+    //পেজে button  এ চাপলে পুরাতন page এ কিছু পরিবর্তন করা যাবে ।
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
                 blogTitle = myview.findViewById(R.id.blogTitle);
 
+                //এখানে মনে রাখতে হবে newlayout কে findviewbyid দিয়ে পরিচয় করিয়ে দেওয়াটা অবশ্যই
+                //View myview = layoutInflater.inflate(R.layout.new_layout, mycreatedlayout, false);
+                //mycreatedlayout.addView(myview);
+                //অবশ্যই এই লাইনের নিচে করতে হবে ।
+
                 blogTitle.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -67,6 +72,17 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        //Remove Layout এ টিপ দিলে সব রিমোব হয়ে যাবে ।
+
+        buttonRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//layout রাখার জন্য যে ঘর বানাইছি তার id দিবো এবং removeAllViews() command দিলে সব চলে যাবে ।
+                mycreatedlayout.removeAllViews();
+
+            }
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainlayout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
